@@ -1,4 +1,8 @@
 
+from symtable import Symbol
+from tkinter import W
+
+
 opreator = ['!', '*', '+', '-', '/', '%', '^', '+=', '-=', '++', '<', '<=', '>', '>=', '=', '==', '!='
             , '||', '&&', '~','[', ']', '{', '}', '(', ')', ',', ';', '<<<', '>>>', '>>', '<<', '#']
 x = ['\n', '\t', '\r', ' ']
@@ -19,13 +23,20 @@ def tokenizer(addres_code, keywords, opreations):
     states = []
     state = ''
     while len(syntax) > iterateNumber:
-        if state in opreations or syntax[iterateNumber] in opreations:
-                states.append(('opreation', state))
-                state = ''
-        elif state in keywords:
+        if state in opreations:
+            while True:
+                if (state + syntax[iterateNumber]) in opreations:
+                    state += syntax[iterateNumber]
+                    iterateNumber += 1
+                    continue
+                else:
+                    break 
+            states.append(('opreation', state))
+            state = ''
+        elif state in keywords and (syntax[iterateNumber + 1] == ' ' or syntax[iterateNumber + 1] in x):
             states.append(('keyword', state))
             state = ''
-        elif syntax[iterateNumber] == ' ' and state != '':
+        elif (syntax[iterateNumber] == ' ' or syntax[iterateNumber] in opreations) and state != '':
             states.append(('identifier', state))
             state = ''
         if syntax[iterateNumber] not in x:

@@ -6,7 +6,7 @@ from tkinter import W
 opreator = ['!', '*', '+', '-', '/', '%', '^', '+=', '-=', '++', '<', '<=', '>', '>=', '=', '==', '!='
             , '||', '&&', '~','[', ']', '{', '}', '(', ')', ',', ';', '<<<', '>>>', '>>', '<<', '#']
 x = ['\n', '\t', '\r', ' ']
-keywords = [ '    ', 'main', 'id', 'num', 'string', 'character', 'int', 'char', 'float', 'double', 'void', 'cin', 'cout', 
+keywords = [ 'main', 'id', 'num', 'string', 'character', 'int', 'char', 'float', 'double', 'void', 'cin', 'cout', 
     'while', 'for', 'if', 'else', 'break', 'return'] 
 numbers = [1,2,3,4,5,6,7,8,9,0]
 
@@ -33,7 +33,7 @@ def tokenizer(addres_code, keywords, opreations):
                     break 
             states.append(('opreation', state))
             state = ''
-        elif state in keywords and (syntax[iterateNumber + 1] == ' ' or syntax[iterateNumber + 1] in x):
+        elif state in keywords and (syntax[iterateNumber] == ' ' or syntax[iterateNumber] in x or syntax[iterateNumber] in opreations):
             states.append(('keyword', state))
             state = ''
         elif (syntax[iterateNumber] == ' ' or syntax[iterateNumber] in opreations) and state != '':

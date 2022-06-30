@@ -23,6 +23,24 @@ def tokenizer(addres_code, keywords, opreations):
     states = []
     state = ''
     while len(syntax) > iterateNumber:
+        if syntax[iterateNumber] == "\"":
+            iterateNumber += 1
+            while True:
+                state += syntax[iterateNumber]
+                if syntax[iterateNumber] == "\"":
+                    iterateNumber += 1
+                    states.append(("value", state))
+                    state = ""
+                    break
+                
+        if syntax[iterateNumber] == "\\":
+            iterateNumber += 1
+            while True:
+                iterateNumber+= 1
+                if syntax[iterateNumber] == "\n":
+                    iterateNumber += 1
+                    break
+  
         if state in opreations:
             while True:
                 if (state + syntax[iterateNumber]) in opreations:
@@ -41,6 +59,8 @@ def tokenizer(addres_code, keywords, opreations):
             state = ''
         if syntax[iterateNumber] not in x:
             state += syntax[iterateNumber]
+        
+
         iterateNumber += 1
     return states
 
